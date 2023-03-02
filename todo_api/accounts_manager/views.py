@@ -4,10 +4,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions, status
 
-"""
-       USER REGISTRATION NEEDS SETTING UP DEFAULT AVATAR AND USER CHOICE OF AVATAR
-"""
-
 class RegisterView(APIView):
     
     permission_classes = (permissions.AllowAny,)

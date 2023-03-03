@@ -4,6 +4,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions, status
 
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 class RegisterView(APIView):
     
     permission_classes = (permissions.AllowAny,)
@@ -86,3 +89,18 @@ class RetrieveUserView(APIView):
        #               {'error' : 'Something went wrong when retrieving user details'}, 
        #               status=status.HTTP_500_INTERNAL_SERVER_ERROR
        #               )
+
+class TokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        token['name'] = user.name
+        token['is_active'] = user.is_active
+        token['is_superuser'] = user.is_superuser
+        return token
+
+class TokenObtainPairView(TokenObtainPairView):
+    serializer_class = TokenObtainPairSerializer
+
+

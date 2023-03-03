@@ -50,6 +50,9 @@ INSTALLED_APPS = [
 
     #JWT BLACKLIST TOKENS
     'rest_framework_simplejwt.token_blacklist',
+
+    #CROSS-ORIGIN-RESOURCE-SHARING (CORS)
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -60,6 +63,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    #CROSS-ORIGIN-RESOURCE-SHARING MIDDLEWARES
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'todo_api.urls'
@@ -143,6 +150,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #Custom User Model
 AUTH_USER_MODEL = 'accounts_manager.UserAccount'
 
+
+#CROSS-ORIGIN-RESOURCE-SHARING
+"""
+If True, all origins will be allowed. Other settings restricting 
+allowed origins will be ignored. Defaults to False.
+"""
+CORS_ALLOW_ALL_ORIGINS = True
 
 #DRF SIMPLE JSON WEB TOKENS AUTHENTICATION
 REST_FRAMEWORK = {

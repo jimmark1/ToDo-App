@@ -90,6 +90,7 @@ class RetrieveUserView(APIView):
        #               status=status.HTTP_500_INTERNAL_SERVER_ERROR
        #               )
 
+#JWT CUSTOMIZED TOKEN CLAIMS
 class TokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):

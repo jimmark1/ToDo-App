@@ -4,6 +4,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions, status
 
+from . serializers import UserManagerSerializer
+
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -76,19 +78,19 @@ class RegisterView(APIView):
 class RetrieveUserView(APIView):
       
       def get(self, request, format=None):
-            pass
-       #      try:
-       #               user = request.user
-       #               user = UserSerializer(user)
+           
+              try:
+                     user = request.user
+                     user = UserManagerSerializer(user)
 
-       #               return Response({'User' : user.data},
-       #                             status=status.HTTP_200_OK
-       #                             )
-       #      except:
-       #               return Response(
-       #               {'error' : 'Something went wrong when retrieving user details'}, 
-       #               status=status.HTTP_500_INTERNAL_SERVER_ERROR
-       #               )
+                     return Response({'User' : user.data},
+                                   status=status.HTTP_200_OK
+                                   )
+              except:
+                     return Response(
+                     {'error' : 'Something went wrong when retrieving user details'}, 
+                     status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                     )
 
 #JWT CUSTOMIZED TOKEN CLAIMS
 class TokenObtainPairSerializer(TokenObtainPairSerializer):

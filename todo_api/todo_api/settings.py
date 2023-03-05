@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     
     #Custom App
     'accounts_manager',
+    'tasks_manager',
 
     #JWT BLACKLIST TOKENS
     'rest_framework_simplejwt.token_blacklist',

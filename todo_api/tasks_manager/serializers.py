@@ -16,5 +16,14 @@ class Tasks_serializer(serializers.ModelSerializer):
                               'updated_at': {'read_only': False},
                               }
 
+class Update_Task_serializer(serializers.ModelSerializer):
+       class Meta:
+              model = Tasks
+
+              fields = [
+                     'task_title',
+                     'task_description',
+                     'is_completed'
+              ]
               
 

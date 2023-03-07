@@ -4,31 +4,14 @@ from rest_framework import permissions, status
 
 from . models import *
 
-from . serializers import Tasks_serializer
+from . serializers import *
 
-class Tasks_scheduler():
-
-       def new_task(self, title, description, user):
-              Tasks.objects.create(
-                            task_title = title.upper(),
-                            task_description = description,
-                            user = user
-                     )
-
-
-       def update_task(self, pk):
-              pass
-
-
-       def delete_task(self, pk):
-              pass
-class Tasks_manager(APIView, Tasks_scheduler):
+class Tasks_manager(APIView):
     
        permission_classes = [permissions.IsAuthenticated]
 
        def get(self, request, format=None):
               try:
-
                      tasks = Tasks.objects.filter(user=request.user)
                      serializer = Tasks_serializer(tasks, many=True)
 
@@ -51,19 +34,61 @@ class Tasks_manager(APIView, Tasks_scheduler):
                             return Response({'error':'Tasks already exists'},
                                    status=status.HTTP_400_BAD_REQUEST)
                      else:
-                            try:
-                                   self.new_task(title = data['task_title'].lstrip(), description = data['task_description'], user = request.user)
-                                   print('Task Title :', task_title)
+                            try:   
+                                   Tasks.objects.create(
+                                          task_title = data['task_title'].lstrip(),
+                                          task_description = data['task_description'],
+                                          user = request.user
+                                          )
+                                
                                    return Response({'success':'Task added sucessfully'}, status=status.HTTP_201_CREATED)
 
                             except Exception as e:
-                                   print(e)
                                    return Response({'error':'Something went wrong while creating a task'},
                                           status=status.HTTP_400_BAD_REQUEST)
 
-       def put(self, pk):
-              pass
+
+class Task_details(APIView):
+
+       permission_classes = [permissions.IsAuthenticated]
+
+       def put(self, request, pk):
+              data = request.data
+              instance = Tasks.objects.get(pk=pk)
+              serializer = Update_Task_serializer(instance=instance, data=data)
+
+              try:
+                     if not data['task_title']:
+                            return Response({'error':'Task Title should not be empty'},
+                                          status=status.HTTP_400_BAD_REQUEST)
+                     else:       
+                            if serializer.is_valid():
+                                   serializer.save()
+                            
+                                   return Response({'success':'Task update successfully'},
+                                            status=status.HTTP_200_OK)
+              except Exception as e:
+                     print(e)
+                     return Response({'error':'Something went wrong while updating tasks'},
+                                     status=status.HTTP_400_BAD_REQUEST)
 
 
-       def delete(self, pk):
-              pass
+       def delete(self, request, pk):
+
+              if Tasks.objects.filter(pk=pk, user=request.user).exists():
+                     try:  
+                            task = Tasks.objects.get(pk=pk)
+                            task.delete()
+
+                            print(request.user)
+
+                            return Response({'success':'Task deleted successfully'},
+                                          status=status.HTTP_400_BAD_REQUEST)
+
+
+                     except Exception as e:
+                            return Response({'error':'Something went wrong while deleting tasks'},
+                                          status=status.HTTP_400_BAD_REQUEST)
+              else:
+                     return Response({'error':'Task Does not exists'},
+                                          status=status.HTTP_400_BAD_REQUEST)

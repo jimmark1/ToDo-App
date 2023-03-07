@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     
     #Custom App
     'accounts_manager',
+    'tasks_manager',
 
     #JWT BLACKLIST TOKENS
     'rest_framework_simplejwt.token_blacklist',
@@ -162,7 +163,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    'DATETIME_FORMAT': "%Y-%m-%d",
 }
 
 SIMPLE_JWT = {

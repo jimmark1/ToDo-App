@@ -7,9 +7,9 @@ const LoginForm = () => {
      return (
           <div
                className={`${LoginStyles.container} d-flex justify-content-center align-items-center`}>
-               <div className="">
+               <div className="col-lg-5">
                     <form
-                         className={`${LoginStyles.form} containe shadow shadow-lg`}
+                         className={`${LoginStyles.form} shadow shadow-lg`}
                          id="login-form">
                          <div className="p-5">
                               <div className="p-1">
@@ -37,7 +37,8 @@ const LoginForm = () => {
                               </div>
                          </div>
                     </form>
-                    <div className="data-link p-3 d-flex justify-content-center">
+                    <div
+                         className={`${LoginStyles.dataLink} p-3 d-flex justify-content-center text-center col-lg-12`}>
                          <p>Don't Have an account? </p>
                          <Link to={"/"}>
                               <p className="fw-bold ms-1">Signup</p>

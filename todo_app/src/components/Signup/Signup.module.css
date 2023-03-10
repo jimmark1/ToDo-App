@@ -1,0 +1,27 @@
+.container {
+     background-color: #93baf6;
+     width: 100vw;
+     height: 100vh;
+}
+.form {
+     background-color: #fdfcff;
+     border-radius: 10px;
+}
+
+.inputField {
+     width: 100%;
+     padding: 10px 0;
+     margin: 5px 0;
+     border-left: 0;
+     border-right: 0;
+     border-top: 0;
+     border-bottom: 0;
+     border-bottom: 1px solid #999;
+     outline: none;
+     background-color: transparent;
+}
+
+.loginLink {
+     color: black;
+     text-decoration: none;
+}

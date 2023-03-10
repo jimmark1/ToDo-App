@@ -1,13 +1,28 @@
 import React from "react";
 import "./App.css";
 
+import LoginPage from "./pages/Login/LoginPage";
+import Signup from "./components/Signup/SignupForm";
+import TodoPage from "./pages/TaskPage/TodoPage";
+import ForgotPasswordPage from "./pages/ForgotPassword/ForgotPasswordPage";
+import NotFoundPage from "./pages/404_NotFound/NotFoundPage";
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 function App() {
      return (
-          <div className="App">
-               <div className="p-5">
-                    <p>Hello word!</p>
-               </div>
-          </div>
+          <Router>
+               <Routes>
+                    <Route path="/" element={<TodoPage />} />
+                    <Route path="/signup" element={<Signup />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route
+                         path="/forgot-password"
+                         element={<ForgotPasswordPage />}
+                    />
+                    <Route path="*" element={<NotFoundPage />} />
+               </Routes>
+          </Router>
      );
 }
 

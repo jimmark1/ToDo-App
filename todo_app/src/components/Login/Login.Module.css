@@ -10,9 +10,45 @@
 }
 
 .input {
-     letter-spacing: 0.5px;
+     width: 100%;
+     padding: 10px 0;
+     margin: 5px 0;
+     border-left: 0;
+     border-right: 0;
+     border-top: 0;
+     border-bottom: 0;
+     border-bottom: 1px solid #999;
+     outline: none;
+     background-color: transparent;
 }
 
 .dataLink {
      letter-spacing: 1px;
+}
+
+.appLabel {
+     letter-spacing: 1px;
+}
+
+.submitBtn {
+     width: 85%;
+     padding: 10px 25px;
+     cursor: pointer;
+     display: block;
+     margin: auto;
+     border: 0;
+     outline: none;
+     letter-spacing: 1.5px;
+     border-radius: 15px;
+     font-size: 15px;
+     font-weight: bold;
+}
+
+.signupLink {
+     color: black;
+     text-decoration: none;
+}
+
+.signupLink:hover {
+     color: black;
 }

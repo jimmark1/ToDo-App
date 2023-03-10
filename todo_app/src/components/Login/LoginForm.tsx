@@ -12,9 +12,15 @@ const LoginForm = () => {
                          className={`${LoginStyles.form} shadow shadow-lg`}
                          id="login-form">
                          <div className="p-5">
+                              <div className="app-brand text-center p-1">
+                                   <h3
+                                        className={`${LoginStyles.appLabel} fw-bolder`}>
+                                        JUST DO IT
+                                   </h3>
+                              </div>
                               <div className="p-1">
                                    <input
-                                        className={`${LoginStyles.input} form-control`}
+                                        className={`${LoginStyles.input}`}
                                         name="username"
                                         type="text"
                                         placeholder="Username"
@@ -22,7 +28,7 @@ const LoginForm = () => {
                               </div>
                               <div className="p-1">
                                    <input
-                                        className={`${LoginStyles.input} form-control`}
+                                        className={`${LoginStyles.input}`}
                                         name="password"
                                         type="password"
                                         placeholder="Password"
@@ -30,7 +36,7 @@ const LoginForm = () => {
                               </div>
                               <div className="d-grid gap-2 col-6 mx-auto p-2">
                                    <input
-                                        className="form-control btn btn-primary"
+                                        className={`${LoginStyles.submitBtn} btn btn-primary`}
                                         type="submit"
                                         value={"Login"}
                                    />
@@ -40,7 +46,9 @@ const LoginForm = () => {
                     <div
                          className={`${LoginStyles.dataLink} p-3 d-flex justify-content-center text-center col-lg-12`}>
                          <p>Don't Have an account? </p>
-                         <Link to={"/"}>
+                         <Link
+                              to={"/signup"}
+                              className={`${LoginStyles.signupLink}`}>
                               <p className="fw-bold ms-1">Signup</p>
                          </Link>
                     </div>

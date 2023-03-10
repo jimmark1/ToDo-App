@@ -34,6 +34,16 @@ const LoginForm = () => {
                                         placeholder="Password"
                                    />
                               </div>
+                              <div
+                                   className={`${LoginStyles.dataLink} fs-6 text-end`}>
+                                   <Link
+                                        to={"/forgot-password"}
+                                        className={`${LoginStyles.signupLink}`}>
+                                        <p className="fw-normal">
+                                             Fogot Password?
+                                        </p>
+                                   </Link>
+                              </div>
                               <div className="d-grid gap-2 col-6 mx-auto p-2">
                                    <input
                                         className={`${LoginStyles.submitBtn} btn btn-primary`}
@@ -44,7 +54,7 @@ const LoginForm = () => {
                          </div>
                     </form>
                     <div
-                         className={`${LoginStyles.dataLink} p-3 d-flex justify-content-center text-center col-lg-12`}>
+                         className={`${LoginStyles.dataLink} p-2 d-flex justify-content-center text-center col-lg-12`}>
                          <p>Don't Have an account? </p>
                          <Link
                               to={"/signup"}

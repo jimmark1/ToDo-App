@@ -7,7 +7,7 @@ const LoginForm = () => {
      return (
           <div
                className={`${LoginStyles.container} d-flex justify-content-center align-items-center`}>
-               <div className="col-lg-5">
+               <div className="col-lg-5 container-fluid">
                     <form
                          className={`${LoginStyles.form} shadow shadow-lg`}
                          id="login-form">
@@ -25,8 +25,6 @@ const LoginForm = () => {
                                         type="text"
                                         placeholder="Username"
                                    />
-                              </div>
-                              <div className="p-1">
                                    <input
                                         className={`${LoginStyles.input}`}
                                         name="password"
@@ -46,7 +44,7 @@ const LoginForm = () => {
                               </div>
                               <div className="d-grid gap-2 col-6 mx-auto p-2">
                                    <input
-                                        className={`${LoginStyles.submitBtn} btn btn-primary text-center`}
+                                        className={`${LoginStyles.submitBtn} btn btn-primary`}
                                         type="submit"
                                         value={"Login"}
                                    />

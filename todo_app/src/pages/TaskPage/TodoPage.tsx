@@ -15,16 +15,17 @@ const Todo = () => {
                className={`${pageStlye.container} d-flex justify-content-center align-items-center`}>
                <div className="col-lg-5 container-fluid">
                     <Tabs
-                         className="nav-fill"
+                         className="nav-fill nav-tabs"
                          defaultActiveKey="task-list"
                          id="tab">
                          <Tab
-                              className={`${pageStlye.tab}`}
+                              className={`${pageStlye.todoContainer}  p-3`}
                               eventKey="task-list"
                               title="task-list">
                               <p>Tasks List</p>
                          </Tab>
                          <Tab
+                              className={`${pageStlye.todoContainer}  p-3`}
                               eventKey="task-list-completed"
                               title="task-list-completed">
                               <p>Completed Tasks</p>

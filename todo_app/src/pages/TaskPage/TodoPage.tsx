@@ -13,7 +13,9 @@ import "./pageStyles.css";
 const Todo = () => {
      return (
           <div className={`${pageStlye.container}`}>
-               <NavbarComponent />
+               <div className="page-nav">
+                    <NavbarComponent />
+               </div>
                <div className="d-flex justify-content-center align-items-center">
                     <div className="col-lg-5 container-fluid">
                          <Tabs

@@ -18,7 +18,11 @@ const NotFound = () => {
                </div>
                <div className="data-link">
                     <Link className={`${NotFoundStyles.dataLink}`} to={"/"}>
-                         <img src={ReturnSvgComponent} alt="Return" />{" "}
+                         <img
+                              className={NotFoundStyles.returnIcon}
+                              src={ReturnSvgComponent}
+                              alt="Return"
+                         />
                          <span> Back to Homepage</span>
                     </Link>
                </div>

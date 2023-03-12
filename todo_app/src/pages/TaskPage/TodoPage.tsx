@@ -2,9 +2,6 @@ import React from "react";
 
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import Container from "react-bootstrap/Container";
-import Navbar from "react-bootstrap/Navbar";
-import Button from "react-bootstrap/Button";
 
 import NavbarComponent from "../../components/Todo/Navbar/NavbarComponent";
 // import TodoForm from "../../components/Todo/TodoForm/TodoForm";

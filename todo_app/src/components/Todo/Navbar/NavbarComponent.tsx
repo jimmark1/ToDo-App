@@ -3,6 +3,7 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
+import { SignoutSvg } from "../../Svgs";
 
 const NavbarComponent = () => {
      return (
@@ -12,8 +13,12 @@ const NavbarComponent = () => {
                          <Navbar.Brand className="fw-bold text-uppercase">
                               JUST DO IT
                          </Navbar.Brand>
-                         <Button variant="secondary" size="sm">
-                              Sign out
+                         <Button
+                              className="fw-medium"
+                              variant="light" //Change to info if not ideal
+                              size="sm">
+                              <span className="me-1">Sign out</span>
+                              <img src={SignoutSvg} alt="" />
                          </Button>
                     </Container>
                </Navbar>

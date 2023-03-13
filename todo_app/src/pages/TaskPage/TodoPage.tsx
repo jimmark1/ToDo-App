@@ -25,13 +25,13 @@ const Todo = () => {
                               <Tab
                                    className={`${pageStlye.todoContainer}  p-3`}
                                    eventKey="task-list"
-                                   title="task-list">
+                                   title="Tasks">
                                    <p>Tasks List</p>
                               </Tab>
                               <Tab
                                    className={`${pageStlye.todoContainer}  p-3`}
                                    eventKey="task-list-completed"
-                                   title="task-list-completed">
+                                   title="Completed Tasks">
                                    <p>Completed Tasks</p>
                               </Tab>
                          </Tabs>

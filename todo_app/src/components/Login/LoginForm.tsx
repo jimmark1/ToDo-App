@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-
 import LoginStyles from "./Login.module.css";
 
-const LoginForm = () => {
+const LoginForm: React.FC = (): JSX.Element => {
      return (
           <div
                className={`${LoginStyles.container} d-flex justify-content-center align-items-center`}>

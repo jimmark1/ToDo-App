@@ -3,28 +3,16 @@ import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 
-/*
- * @description
- * USER TYPE
- */
 interface User {
-     exp: number;
-     iat: number;
-     user_id: string;
+     name: string;
+     readonly user_id: string;
 }
-/*
- * @description
- * AUTHENTICATION TOKENS TYPE
- */
+
 interface AuthTokens {
      access: string;
      refresh: string;
 }
 
-/*
- * @description
- * AUTHENTICATION CONTEXT TYPE
- */
 interface AuthContextType {
      user: User | null;
      authTokens: AuthTokens | null;
@@ -32,14 +20,13 @@ interface AuthContextType {
      userLogout: () => void;
 }
 
-const AuthContext = createContext<AuthContextType | null>(null);
+export const AuthContext = createContext<AuthContextType | null>(null);
 
 interface Props {
      children: ReactNode;
 }
 
-export const AuthProvider = ({ children }: Props) => {
-     // NOTIFICATION FOR INVALID CREDENTIALS
+const AuthProvider: React.FC = ({ children }: Props) => {
      const unauthorizedNotification = () => {
           console.log("Invalid Credentials");
      };
@@ -47,37 +34,20 @@ export const AuthProvider = ({ children }: Props) => {
      // USE TO REDIRECT USERS
      const navigate = useNavigate();
 
-     /*
-      * @description
-      * SETS THE AUTHENTICATION TOKENS
-      *
-      */
      const [authTokens, setAuthTokens] = useState<AuthTokens | null>(() =>
           localStorage.getItem("authTokens")
                ? JSON.parse(localStorage.getItem("authTokens")!)
                : null,
      );
 
-     /*
-      * @description
-      * GETS THE USER FROM THE AUTHENTICATION TOKENS
-      */
      const [user, setUser] = useState<User | null>(() =>
           localStorage.getItem("authTokens")
                ? (jwt_decode(localStorage.getItem("authTokens")!) as User)
                : null,
      );
 
-     /*
-      * @description
-      * SETS THE AUTHENTICATION TOKENS
-      */
      const [loading, setLoading] = useState(false);
 
-     /*
-      * @description
-      * LOGS THE USER IN
-      */
      const loginUser = async (
           e: React.FormEvent<HTMLFormElement>,
      ): Promise<void> => {
@@ -90,13 +60,9 @@ export const AuthProvider = ({ children }: Props) => {
                });
 
                if (response.status === 200) {
-                    /*
-                     * @description
-                     * SETS THE AUTHENTICATION TOKENS
-                     */
                     const data = response.data;
                     setAuthTokens(data);
-                    setUser(jwt_decode(data.access) as User);
+                    setUser(jwt_decode(data.access));
                     localStorage.setItem("authTokens", JSON.stringify(data));
                     navigate("/", { replace: true });
                }
@@ -105,10 +71,6 @@ export const AuthProvider = ({ children }: Props) => {
           }
      };
 
-     /*
-      * @description
-      * LOGS THE USER OUT
-      */
      const userLogout = () => {
           setAuthTokens(null);
           setUser(null);
@@ -116,10 +78,6 @@ export const AuthProvider = ({ children }: Props) => {
           navigate("/login", { replace: true });
      };
 
-     /*
-      * @description
-      * UPDATES THE ACCESS TOKEN
-      */
      const updateToken = async () => {
           try {
                console.log("Updating Token");
@@ -143,6 +101,13 @@ export const AuthProvider = ({ children }: Props) => {
           }
      };
 
+     const contextData = {
+          user,
+          authTokens,
+          loginUser,
+          userLogout,
+     };
+
      useEffect(() => {
           if (loading) {
                updateToken();
@@ -160,14 +125,8 @@ export const AuthProvider = ({ children }: Props) => {
      }, [authTokens, loading]);
 
      return (
-          <AuthContext.Provider
-               value={{
-                    user,
-                    authTokens,
-                    loginUser,
-                    userLogout,
-               }}>
-               {loading ? null : children}
+          <AuthContext.Provider value={contextData}>
+               {children}
           </AuthContext.Provider>
      );
 };

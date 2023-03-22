@@ -8,8 +8,8 @@ interface User {
 }
 
 interface AuthTokens {
-     accessToken: string;
-     refreshToken: string;
+     access: string;
+     refresh: string;
 }
 
 interface AuthContextValue {
@@ -63,6 +63,10 @@ export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
                ); // send a post request to the backend with the username and password
 
                if (response.status === 200) {
+                    localStorage.setItem(
+                         "authTokens",
+                         JSON.stringify(response.data),
+                    );
                     setAuthTokens(response.data);
                     setUser(jwt_decode(response.data.access));
                     navigate("/", { replace: true });
@@ -81,21 +85,20 @@ export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
 
      const updateTokens = async () => {
           try {
-               console.log("Updating tokens");
                const response = await axios.post(
                     "http://127.0.0.1:8000/auth/token/refresh/",
                     {
-                         refresh: authTokens?.refreshToken,
+                         refresh: authTokens?.refresh,
                     },
-               );
+               ); // send a post request to the backend with the refresh token
 
                if (response.status === 200) {
                     setAuthTokens(response.data);
                     setUser(jwt_decode(response.data.access));
                     localStorage.setItem(
-                         "access_token",
+                         "authTokens",
                          JSON.stringify(response.data),
-                    );
+                    ); // if the response status is 200, set the authTokens and user
                }
           } catch (err) {
                console.log(err);

@@ -2,14 +2,19 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import LoginStyles from "./Login.module.css";
 
-const LoginForm: React.FC = (): JSX.Element => {
+import { AuthContext } from "../../contexts/AuthContext";
+
+const LoginForm = () => {
+     let authContext = useContext(AuthContext);
+
      return (
           <div
                className={`${LoginStyles.container} d-flex justify-content-center align-items-center`}>
                <div className="col-lg-5 container-fluid">
                     <form
                          className={`${LoginStyles.form} shadow shadow-lg`}
-                         id="login-form">
+                         id="login-form"
+                         onSubmit={authContext?.login}>
                          <div className="p-5">
                               <div className="app-brand text-center p-1">
                                    <h3

@@ -9,19 +9,26 @@ import NotFoundPage from "./pages/404_NotFound/NotFoundPage";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+import { AuthProvider } from "./contexts/AuthContext";
+import PrivateRoutes from "./contexts/PrivateRoutes";
+
 function App() {
      return (
           <Router>
-               <Routes>
-                    <Route path="/" element={<TodoPage />} />
-                    <Route path="/signup" element={<Signup />} />
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route
-                         path="/forgot-password"
-                         element={<ForgotPasswordPage />}
-                    />
-                    <Route path="*" element={<NotFoundPage />} />
-               </Routes>
+               <AuthProvider>
+                    <Routes>
+                         <Route path="/signup" element={<Signup />} />
+                         <Route path="/login" element={<LoginPage />} />
+                         <Route
+                              path="/forgot-password"
+                              element={<ForgotPasswordPage />}
+                         />
+                         <Route path="*" element={<NotFoundPage />} />
+                         <Route element={<PrivateRoutes />}>
+                              <Route path="/" element={<TodoPage />} />
+                         </Route>
+                    </Routes>
+               </AuthProvider>
           </Router>
      );
 }

@@ -1,132 +1,138 @@
-import React, { createContext, ReactNode, useEffect, useState } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
-
 interface User {
+     readonly _id: string;
      name: string;
-     readonly user_id: string;
 }
 
 interface AuthTokens {
-     access: string;
-     refresh: string;
+     accessToken: string;
+     refreshToken: string;
 }
 
-interface AuthContextType {
+interface AuthContextValue {
      user: User | null;
      authTokens: AuthTokens | null;
-     loginUser: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
-     userLogout: () => void;
+     login: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+     logout: () => void;
 }
-
-export const AuthContext = createContext<AuthContextType | null>(null);
-
 interface Props {
-     children: ReactNode;
+     children: React.ReactNode;
 }
 
-const AuthProvider: React.FC = ({ children }: Props) => {
-     const unauthorizedNotification = () => {
-          console.log("Invalid Credentials");
-     };
+export const AuthContext = createContext<AuthContextValue | null>(null);
 
-     // USE TO REDIRECT USERS
-     const navigate = useNavigate();
+export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
+     const [isLoading, setIsLoading] = useState(false); // set the initial state of isLoading to false
 
-     const [authTokens, setAuthTokens] = useState<AuthTokens | null>(() =>
-          localStorage.getItem("authTokens")
-               ? JSON.parse(localStorage.getItem("authTokens")!)
-               : null,
-     );
+     const invalidCredentials = () => {
+          console.log("Invalid credentials");
+     }; // log invalid credentials to the console
 
-     const [user, setUser] = useState<User | null>(() =>
-          localStorage.getItem("authTokens")
-               ? (jwt_decode(localStorage.getItem("authTokens")!) as User)
-               : null,
-     );
+     const navigate = useNavigate(); // use the navigate hook from react-router-dom
 
-     const [loading, setLoading] = useState(false);
+     let [authTokens, setAuthTokens] = useState<AuthTokens | null>(
+          () =>
+               localStorage.getItem("authTokens")
+                    ? JSON.parse(localStorage.getItem("authTokens")!) // if there are authTokens, parse them
+                    : null, // if there are no authTokens, set it to null
+     ); // set the initial state of authTokens to null
 
-     const loginUser = async (
+     const [user, setUser] = useState<User | null>(
+          () =>
+               localStorage.getItem("authTokens")
+                    ? jwt_decode(localStorage.getItem("authTokens")!) // if there are authTokens, parse them
+                    : null, // if there are no authTokens, set it to null
+     ); // set the initial state of user to null
+
+     const login = async (
           e: React.FormEvent<HTMLFormElement>,
      ): Promise<void> => {
           e.preventDefault();
 
           try {
-               const response = await axios.post("127.0.0.1:8000/api/token/", {
-                    username: e.currentTarget.username.value,
-                    password: e.currentTarget.password.value,
-               });
+               // console.log("Logging in");
+               const response = await axios.post(
+                    "http://127.0.0.1:8000/auth/token/",
+                    {
+                         username: e.currentTarget.username.value,
+                         password: e.currentTarget.password.value,
+                    },
+               ); // send a post request to the backend with the username and password
 
                if (response.status === 200) {
-                    const data = response.data;
-                    setAuthTokens(data);
-                    setUser(jwt_decode(data.access));
-                    localStorage.setItem("authTokens", JSON.stringify(data));
+                    setAuthTokens(response.data);
+                    setUser(jwt_decode(response.data.access));
                     navigate("/", { replace: true });
-               }
-          } catch (error) {
-               unauthorizedNotification();
-          }
+               } // if the response status is 200, set the authTokens and user
+          } catch (err) {
+               invalidCredentials();
+          } // if there is an error, log it to the console
      };
 
-     const userLogout = () => {
+     const logout = () => {
           setAuthTokens(null);
           setUser(null);
           localStorage.removeItem("authTokens");
           navigate("/login", { replace: true });
-     };
+     }; // set the authTokens and user to null, remove the authTokens from localStorage, and navigate to the login page
 
-     const updateToken = async () => {
+     const updateTokens = async () => {
           try {
-               console.log("Updating Token");
+               console.log("Updating tokens");
                const response = await axios.post(
-                    "127.0.0.1:8000/api/token/refresh/",
+                    "http://127.0.0.1:8000/auth/token/refresh/",
                     {
-                         refresh: authTokens?.refresh,
+                         refresh: authTokens?.refreshToken,
                     },
                );
 
-               const data = response.data;
-               setAuthTokens(data);
-               setUser(jwt_decode(data.access));
-               localStorage.setItem("access_token", JSON.stringify(data));
-          } catch (error) {
-               userLogout();
+               if (response.status === 200) {
+                    setAuthTokens(response.data);
+                    setUser(jwt_decode(response.data.access));
+                    localStorage.setItem(
+                         "access_token",
+                         JSON.stringify(response.data),
+                    );
+               }
+          } catch (err) {
+               console.log(err);
           }
 
-          if (loading) {
-               setLoading(false);
+          if (isLoading) {
+               setIsLoading(false);
           }
-     };
+     }; // update the access and refresh tokens
 
      const contextData = {
-          user,
-          authTokens,
-          loginUser,
-          userLogout,
-     };
+          user: user,
+          authTokens: authTokens,
+
+          login: login,
+          logout: logout,
+     }; // set the context data
 
      useEffect(() => {
-          if (loading) {
-               updateToken();
+          if (isLoading) {
+               updateTokens();
           }
 
-          let timeInterval = 1000 * 60 * 2;
+          const timeInterval = 1000 * 60 * 3; // 3 minutes
 
-          let interval = setInterval(() => {
+          const interval = setInterval(() => {
                if (authTokens) {
-                    updateToken();
+                    updateTokens();
                }
           }, timeInterval);
           return () => clearInterval(interval);
           // eslint-disable-next-line react-hooks/exhaustive-deps
-     }, [authTokens, loading]);
+     }, [authTokens, isLoading]);
 
      return (
           <AuthContext.Provider value={contextData}>
                {children}
-          </AuthContext.Provider>
+          </AuthContext.Provider> // return the context provider
      );
-};
+}; // set the initial state of authTokens to null

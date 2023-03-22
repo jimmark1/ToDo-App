@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import { SignoutSvg } from "../../Svgs";
 
+import { AuthContext } from "../../../contexts/AuthContext";
+
 const NavbarComponent = () => {
+     let authContext = useContext(AuthContext);
+
      return (
           <div>
                <Navbar className="mb-5 p-2" bg="light" expand="lg">
@@ -16,7 +20,8 @@ const NavbarComponent = () => {
                          <Button
                               className="fw-medium"
                               variant="light" //Change to info if not ideal
-                              size="sm">
+                              size="sm"
+                              onClick={authContext?.logout}>
                               <span className="me-1">Sign out</span>
                               <img src={SignoutSvg} alt="" />
                          </Button>

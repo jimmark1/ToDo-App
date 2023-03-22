@@ -28,9 +28,9 @@ const TodoList = () => {
           }
      };
 
-     useEffect(() => {
-          get_todos();
-     });
+     // useEffect(() => {
+     //      get_todos();
+     // });
 
      return (
           <>

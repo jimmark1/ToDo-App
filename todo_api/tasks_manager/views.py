@@ -10,14 +10,17 @@ class Tasks_manager(APIView):
     
        permission_classes = [permissions.IsAuthenticated]
 
-       def get(self, request, format=None):
+       def get(self, request):
               try:
                      tasks = Tasks.objects.filter(user=request.user)
                      serializer = Tasks_serializer(tasks, many=True)
 
+                    
+
                      return Response(serializer.data, status=status.HTTP_200_OK)
               
               except Exception as e:
+                     print('User',request.user)
                      return Response({'error':'Something went wrong while getting tasks'},
                                      status=status.HTTP_400_BAD_REQUEST)
 

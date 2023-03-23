@@ -1,17 +1,24 @@
-import React, { useEffect, useState } from "react";
-
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 
 import ListGroup from "react-bootstrap/ListGroup";
 
+import { AuthContext } from "../../../contexts/AuthContext";
+
 const TodoList = () => {
-     // const [todo, setTodo] = useState([]);
+     interface Todo {
+          readonly task_id: string;
+          task_title: string;
+          is_completed: boolean;
+          created_at: string;
+     }
+
+     let authContext = useContext(AuthContext);
+     const [todos, setTodos] = useState<Todo[]>([]);
      const get_todos = async () => {
           const request_instance = axios.create({
                headers: {
-                    Authorization: `Bearer ${localStorage.getItem(
-                         "access_token",
-                    )}`,
+                    Authorization: `Bearer ${authContext?.authTokens?.access}`,
                     "Content-Type": "application/json",
                     Accept: "application/json",
                },
@@ -22,25 +29,24 @@ const TodoList = () => {
           );
 
           if (response.status === 200) {
-               console.log(response.data);
+               setTodos(response.data);
           } else {
                console.log(response);
           }
      };
 
-     // useEffect(() => {
-     //      get_todos();
-     // });
+     useEffect(() => {
+          get_todos();
+          // eslint-disable-next-line react-hooks/exhaustive-deps
+     }, []);
 
      return (
           <>
-               <ListGroup variant="flush">
-                    <ListGroup.Item>Cras justo odio</ListGroup.Item>
-                    <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-                    <ListGroup.Item>Morbi leo risus</ListGroup.Item>
-                    <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
-                    <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
-               </ListGroup>
+               {todos.map((todo) => (
+                    <ListGroup variant="flush" key={todo.task_id}>
+                         <ListGroup.Item>{todo.task_title}</ListGroup.Item>
+                    </ListGroup>
+               ))}
           </>
      );
 };

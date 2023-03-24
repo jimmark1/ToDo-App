@@ -101,7 +101,7 @@ export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
                     ); // if the response status is 200, set the authTokens and user
                }
           } catch (err) {
-               console.log(err);
+               logout();
           }
 
           if (isLoading) {

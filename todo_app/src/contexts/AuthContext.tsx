@@ -5,22 +5,22 @@ import axios from "axios";
 interface User {
      readonly _id: string;
      name: string;
-}
+} // define the User interface
 
 interface AuthTokens {
      access: string;
      refresh: string;
-}
+} // define the AuthTokens interface
 
 interface AuthContextValue {
      user: User | null;
      authTokens: AuthTokens | null;
      login: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
      logout: () => void;
-}
+} // define the AuthContextValue interface
 interface Props {
      children: React.ReactNode;
-}
+} // define the Props interface
 
 export const AuthContext = createContext<AuthContextValue | null>(null);
 

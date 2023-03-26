@@ -1,11 +1,11 @@
 import React from "react";
 
-import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
-
 import NavbarComponent from "../../components/Todo/Navbar/NavbarComponent";
 import TodoForm from "../../components/Todo/TodoForm/TodoForm";
 import TodoList from "../../components/Todo/TodoList/TodoList";
+
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
 
 import pageStlye from "../TaskPage/Todo.module.css";
 import "./pageStyles.css";

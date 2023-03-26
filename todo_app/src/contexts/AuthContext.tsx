@@ -2,6 +2,10 @@ import React, { useState, useEffect, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 interface User {
      readonly _id: string;
      name: string;
@@ -27,8 +31,24 @@ export const AuthContext = createContext<AuthContextValue | null>(null);
 export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
      const [isLoading, setIsLoading] = useState(false); // set the initial state of isLoading to false
 
+     const error = () => {
+          toast.error("Something went wrong!", {
+               position: "top-right",
+               autoClose: 2000,
+               draggable: false,
+               theme: "colored",
+               closeButton: false,
+          });
+     };
+
      const invalidCredentials = () => {
-          console.log("Invalid credentials");
+          toast.error("Invalid Credentials!", {
+               position: "top-right",
+               autoClose: 2000,
+               draggable: false,
+               theme: "colored",
+               closeButton: false,
+          });
      }; // log invalid credentials to the console
 
      const navigate = useNavigate(); // use the navigate hook from react-router-dom
@@ -99,8 +119,11 @@ export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
                          "authTokens",
                          JSON.stringify(response.data),
                     ); // if the response status is 200, set the authTokens and user
+               } else {
+                    error();
                }
           } catch (err) {
+               error();
                logout();
           }
 

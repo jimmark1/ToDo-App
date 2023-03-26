@@ -10,7 +10,7 @@ class Tasks_manager(APIView):
     
        permission_classes = [permissions.IsAuthenticated]
 
-       def get(self, request, format=None):
+       def get(self, request):
               try:
                      tasks = Tasks.objects.filter(user=request.user)
                      serializer = Tasks_serializer(tasks, many=True)
@@ -23,21 +23,19 @@ class Tasks_manager(APIView):
 
        def post(self, request):
               data = request.data
-              task_title = data['task_title'].upper()
 
               if len(data['task_title']) < 3 or data['task_title'].isspace():
                      return Response({'error':'Task title should atleast 3 characters long'},
                             status=status.HTTP_400_BAD_REQUEST)
               
               else:
-                     if Tasks.objects.filter(user=request.user, task_title = task_title).exists():
-                            return Response({'error':'Tasks already exists'},
+                     if Tasks.objects.filter(user=request.user, task_title = data['task_title']).exists():
+                            return Response({'message':'Tasks already exists'},
                                    status=status.HTTP_400_BAD_REQUEST)
                      else:
                             try:   
                                    Tasks.objects.create(
                                           task_title = data['task_title'].lstrip(),
-                                          task_description = data['task_description'],
                                           user = request.user
                                           )
                                 
@@ -46,7 +44,6 @@ class Tasks_manager(APIView):
                             except Exception as e:
                                    return Response({'error':'Something went wrong while creating a task'},
                                           status=status.HTTP_400_BAD_REQUEST)
-
 
 class Task_details(APIView):
 

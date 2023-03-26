@@ -5,7 +5,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 #THIS CLASS IS FOR THE CUSTOM USER FIELD THIS RENDERS CUSTOM FIELDS WHAT WE WANT TO SEE ON THE DJANGO ADMIN PANEL
 
 class UserModelAdmin(BaseUserAdmin):
-  list_display = ('name','username', 'avatar','is_active', 'is_superuser', 'created_at', 'updated_at')
+  list_display = ('name','username', 'is_active', 'is_superuser', 'created_at', 'updated_at')
   list_filter = ('is_superuser',)
   fieldsets = (
       ('User Credentials', {'fields': ('username', 'password')}),
@@ -20,7 +20,7 @@ class UserModelAdmin(BaseUserAdmin):
       }),
   )
   search_fields = ('name',)
-  ordering = ('name','username', 'avatar', 'is_active', 'is_superuser', 'created_at', 'updated_at')
+  ordering = ('name','username',  'is_active', 'is_superuser', 'created_at', 'updated_at')
   filter_horizontal = ()
 
 admin.site.register(UserAccount, UserModelAdmin)

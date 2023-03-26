@@ -22,7 +22,6 @@ class Update_Task_serializer(serializers.ModelSerializer):
 
               fields = [
                      'task_title',
-                     'task_description',
                      'is_completed'
               ]
               

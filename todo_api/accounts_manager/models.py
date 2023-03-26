@@ -42,7 +42,6 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
        
        username = models.CharField(max_length=255, null=False, blank=False, unique=True)
        password = models.CharField(max_length=60, null=False)
-       avatar = models.ImageField(upload_to=avatar_path, max_length=255, null=True, blank=True, default='default_avatar/avatar.jpg')
 
        created_at = models.DateTimeField(auto_now_add=True)
        updated_at = models.DateTimeField(auto_now_add=True)

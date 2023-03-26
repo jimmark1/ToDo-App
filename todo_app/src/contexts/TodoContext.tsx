@@ -45,6 +45,8 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
           } // if the response is successful, set the todos to the response data
      };
 
+     const new_todo = async (task_title: string) => {};
+
      const contextData = { get_todos, todos }; // set the context data
 
      useEffect(() => {

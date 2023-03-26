@@ -23,35 +23,21 @@ class RegisterView(APIView):
               password = data['password']
               re_password = data['re_password']
 
-              avatar = data['avatar']
               
               if password == re_password:
                      if len(password) >= 8:
                             if not User.objects.filter(username=username).exists():
-                                   if 'avatar' in request.FILES:
-                                          user = User.objects.create_user(
-                                                 name=name,
-                                                 username=username,
-                                                 password=password
-                                          )
+                                   user = User.objects.create_user(
+                                          name=name,
+                                          username=username,
+                                          password=password
                                           
-                                          user.avatar = avatar
-                                          user.save()
-                                          return Response({'success' :'User account created successfully'},
-                                                        status=status.HTTP_201_CREATED
-                                                        )
-                                   else:
-                                          user = User.objects.create_user(
-                                                 name=name,
-                                                 username=username,
-                                                 password=password
-                                                 
-                                          )
+                                   )
                                           
-                                          user.save()
-                                          return Response({'success' :'User account created successfully'},
-                                                        status=status.HTTP_201_CREATED
-                                                        )
+                                   user.save()
+                                   return Response({'success' :'User account created successfully'},
+                                                 status=status.HTTP_201_CREATED
+                                                 )
                             else:
                                    return Response(
                                    {'error' : 'Username already exists'},

@@ -27,7 +27,6 @@ const Todo = () => {
                                    fontSize: "15px",
                                    fontWeight: "500",
                                    letterSpacing: "1.5px",
-                                   width: "20rem",
                               }}
                          />
                          <Tabs

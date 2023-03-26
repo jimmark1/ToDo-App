@@ -6,6 +6,8 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 
 import { TodoContext } from "../../../contexts/TodoContext";
 
+import { EditSvg, DeleteSvg } from "../../Svgs";
+
 const TodoList = () => {
      let todoContext = useContext(TodoContext);
 
@@ -17,8 +19,15 @@ const TodoList = () => {
                               <div className="d-flex justify-content-between align-items-center">
                                    <span>{todo.task_title}</span>
                                    <ButtonGroup>
-                                        <Button variant="primary">+</Button>
-                                        <Button variant="danger">X</Button>
+                                        <Button variant="primary">
+                                             <img src={EditSvg} alt="Edit" />
+                                        </Button>
+                                        <Button variant="danger">
+                                             <img
+                                                  src={DeleteSvg}
+                                                  alt="Delete"
+                                             />
+                                        </Button>
                                    </ButtonGroup>
                               </div>
                          </ListGroup.Item>

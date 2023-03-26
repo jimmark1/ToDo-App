@@ -1,5 +1,9 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import LoginStyles from "./Login.module.css";
 
 import { AuthContext } from "../../contexts/AuthContext";
@@ -10,6 +14,15 @@ const LoginForm = () => {
      return (
           <div
                className={`${LoginStyles.container} d-flex justify-content-center align-items-center`}>
+               <ToastContainer
+                    hideProgressBar={true}
+                    toastStyle={{
+                         fontSize: "15px",
+                         fontWeight: "500",
+                         letterSpacing: "1.5px",
+                         width: "20rem",
+                    }}
+               />
                <div className="col-lg-5 container-fluid">
                     <form
                          className={`${LoginStyles.form} shadow shadow-lg`}

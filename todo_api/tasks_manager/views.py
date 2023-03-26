@@ -15,12 +15,9 @@ class Tasks_manager(APIView):
                      tasks = Tasks.objects.filter(user=request.user)
                      serializer = Tasks_serializer(tasks, many=True)
 
-                    
-
                      return Response(serializer.data, status=status.HTTP_200_OK)
               
               except Exception as e:
-                     print('User',request.user)
                      return Response({'error':'Something went wrong while getting tasks'},
                                      status=status.HTTP_400_BAD_REQUEST)
 
@@ -40,7 +37,6 @@ class Tasks_manager(APIView):
                             try:   
                                    Tasks.objects.create(
                                           task_title = data['task_title'].lstrip(),
-                                          task_description = data['task_description'],
                                           user = request.user
                                           )
                                 

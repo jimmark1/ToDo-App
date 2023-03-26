@@ -20,7 +20,6 @@ const LoginForm = () => {
                          fontSize: "15px",
                          fontWeight: "500",
                          letterSpacing: "1.5px",
-                         width: "20rem",
                     }}
                />
                <div className="col-lg-5 container-fluid">

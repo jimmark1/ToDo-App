@@ -7,7 +7,7 @@ import { AddSvg } from "../../Svgs";
 const TodoForm = () => {
      return (
           <div className="border-bottom border-secondary-subtle info">
-               <div className="mb-2">
+               <div className="mb-3">
                     <Form>
                          <div className="new-task d-flex gap-1">
                               <Form.Control

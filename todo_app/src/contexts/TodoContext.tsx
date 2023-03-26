@@ -71,7 +71,7 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
                get_todos();
                setTaskTitle("");
           } else {
-               console.log(response.status);
+               console.log(response.statusText);
           } // if the response is successful, set the todos to the response data
      };
 

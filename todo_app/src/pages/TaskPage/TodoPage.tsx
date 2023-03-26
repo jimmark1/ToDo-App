@@ -4,6 +4,9 @@ import NavbarComponent from "../../components/Todo/Navbar/NavbarComponent";
 import TodoForm from "../../components/Todo/TodoForm/TodoForm";
 import TodoList from "../../components/Todo/TodoList/TodoList";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 
@@ -18,6 +21,15 @@ const Todo = () => {
                </div>
                <div className="d-flex justify-content-center align-items-center">
                     <div className="col-lg-5 container-fluid">
+                         <ToastContainer
+                              hideProgressBar={true}
+                              toastStyle={{
+                                   fontSize: "15px",
+                                   fontWeight: "500",
+                                   letterSpacing: "1.5px",
+                                   width: "20rem",
+                              }}
+                         />
                          <Tabs
                               className="nav-fill nav-tabs"
                               defaultActiveKey="task-list"

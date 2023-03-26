@@ -4,7 +4,7 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 
 import NavbarComponent from "../../components/Todo/Navbar/NavbarComponent";
-// import TodoForm from "../../components/Todo/TodoForm/TodoForm";
+import TodoForm from "../../components/Todo/TodoForm/TodoForm";
 import TodoList from "../../components/Todo/TodoList/TodoList";
 
 import pageStlye from "../TaskPage/Todo.module.css";
@@ -26,6 +26,8 @@ const Todo = () => {
                                    className={`${pageStlye.todoContainer} p-3`}
                                    eventKey="task-list"
                                    title="Tasks">
+                                   <TodoForm />
+
                                    <TodoList />
                               </Tab>
                               <Tab

@@ -1,5 +1,7 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { AuthContext } from "./AuthContext";
 
@@ -28,6 +30,26 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
      let authContext = useContext(AuthContext);
      const [todos, setTodos] = useState<Todo[]>([]); // set the initial state of Todos to null
      const [task_title, setTaskTitle] = useState(""); // set the initial state of task_title to null
+
+     const success = () => {
+          toast.success("Task created successfully!", {
+               position: "top-right",
+               autoClose: 2000,
+               draggable: false,
+               theme: "colored",
+               closeButton: false,
+          });
+     };
+
+     const error = () => {
+          toast.error("Failed to create task!", {
+               position: "top-right",
+               autoClose: 2000,
+               draggable: false,
+               theme: "colored",
+               closeButton: false,
+          });
+     };
 
      const get_todos = async () => {
           const request_instance = axios.create({
@@ -60,19 +82,24 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
                },
           }); // create an axios instance with the auth token
 
-          const response = await request_instance.post(
-               "http://127.0.0.1:8000/tasks/",
-               {
-                    task_title: e.currentTarget.task_title.value,
-               },
-          ); // get the todos from the API
+          try {
+               const response = await request_instance.post(
+                    "http://127.0.0.1:8000/tasks/",
+                    {
+                         task_title: e.currentTarget.task_title.value,
+                    },
+               );
 
-          if (response.status === 200 || 201) {
-               get_todos();
-               setTaskTitle("");
-          } else {
-               console.log(response.statusText);
-          } // if the response is successful, set the todos to the response data
+               if (response.status === 200 || response.status === 201) {
+                    get_todos();
+                    setTaskTitle("");
+                    success();
+               } else {
+                    error();
+               }
+          } catch (err) {
+               error();
+          }
      };
 
      const contextData = {

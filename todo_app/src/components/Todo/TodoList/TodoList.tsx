@@ -19,7 +19,16 @@ const TodoList = () => {
                               <div className="d-flex justify-content-between align-items-center">
                                    <span>{todo.task_title}</span>
                                    <ButtonGroup>
-                                        <Button variant="primary">
+                                        <Button
+                                             variant="primary"
+                                             onClick={(e) =>
+                                                  todoContext?.edit_todo(
+                                                       e,
+
+                                                       todo.task_id,
+                                                       todo.task_title,
+                                                  )
+                                             }>
                                              <img src={EditSvg} alt="Edit" />
                                         </Button>
                                         <Button variant="danger">

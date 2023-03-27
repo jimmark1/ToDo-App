@@ -1,4 +1,10 @@
-import React, { useState, useEffect, createContext, useContext } from "react";
+import React, {
+     useState,
+     useEffect,
+     createContext,
+     useContext,
+     MouseEvent,
+} from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -18,6 +24,11 @@ interface TodoContextValue {
      new_todo: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
      task_title: string;
      setTaskTitle: (task_title: string) => void;
+     edit_todo: (
+          e: React.MouseEvent<HTMLButtonElement>,
+          task_title: string,
+          id: string,
+     ) => Promise<void>;
 } // define the TodoContextValue interface
 
 interface Props {
@@ -102,12 +113,29 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
           }
      };
 
+     const edit_todo = async (
+          e: MouseEvent<HTMLButtonElement>,
+          id: string,
+          task_title: string,
+     ) => {
+          setTaskTitle(task_title);
+
+          // toast.success("Task Updated successfully!", {
+          //      position: "top-right",
+          //      autoClose: 2000,
+          //      draggable: false,
+          //      theme: "colored",
+          //      closeButton: false,
+          // });
+     };
+
      const contextData = {
           get_todos,
           todos,
           new_todo,
           task_title,
           setTaskTitle,
+          edit_todo,
      }; // set the context data
 
      useEffect(() => {

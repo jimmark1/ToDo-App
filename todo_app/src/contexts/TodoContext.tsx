@@ -41,6 +41,7 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
      let authContext = useContext(AuthContext);
      const [todos, setTodos] = useState<Todo[]>([]); // set the initial state of Todos to null
      const [task_title, setTaskTitle] = useState(""); // set the initial state of task_title to null
+     const [taskID, setTaskID] = useState(""); // set the initial state of taskID to null
 
      const success = () => {
           toast.success("Task created successfully!", {
@@ -93,23 +94,25 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
                },
           }); // create an axios instance with the auth token
 
-          try {
-               const response = await request_instance.post(
-                    "http://127.0.0.1:8000/tasks/",
-                    {
-                         task_title: e.currentTarget.task_title.value,
-                    },
-               );
+          if (!taskID) {
+               try {
+                    const response = await request_instance.post(
+                         "http://127.0.0.1:8000/tasks/",
+                         {
+                              task_title: e.currentTarget.task_title.value,
+                         },
+                    );
 
-               if (response.status === 200 || response.status === 201) {
-                    get_todos();
-                    setTaskTitle("");
-                    success();
-               } else {
+                    if (response.status === 200 || response.status === 201) {
+                         get_todos();
+                         setTaskTitle("");
+                         success();
+                    } else {
+                         error();
+                    }
+               } catch (err) {
                     error();
                }
-          } catch (err) {
-               error();
           }
      };
 
@@ -119,6 +122,7 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
           task_title: string,
      ) => {
           setTaskTitle(task_title);
+          setTaskID(id);
 
           // toast.success("Task Updated successfully!", {
           //      position: "top-right",

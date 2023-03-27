@@ -10,10 +10,13 @@ import { EditSvg, DeleteSvg } from "../../Svgs";
 
 const TodoList = () => {
      let todoContext = useContext(TodoContext);
+     const completedTodos = todoContext?.todos.filter(
+          (todo) => todo.is_completed === false,
+     );
 
      return (
           <>
-               {todoContext?.todos.map((todo) => (
+               {completedTodos?.map((todo) => (
                     <ListGroup variant="flush" key={todo.task_id}>
                          <ListGroup.Item className="border-bottom border-secondary-subtle text-align-middle">
                               <div className="d-flex justify-content-between align-items-center">

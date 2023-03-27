@@ -21,12 +21,17 @@ interface Todo {
 interface TodoContextValue {
      get_todos: () => Promise<void>;
      todos: Todo[];
-     new_todo: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+     handle_todo: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
      task_title: string;
      setTaskTitle: (task_title: string) => void;
      edit_todo: (
           e: React.MouseEvent<HTMLButtonElement>,
           task_title: string,
+          id: string,
+     ) => Promise<void>;
+     delete_todo: (
+          e: React.MouseEvent<HTMLButtonElement>,
+
           id: string,
      ) => Promise<void>;
 } // define the TodoContextValue interface
@@ -83,18 +88,17 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
           } // if the response is successful, set the todos to the response data
      };
 
-     const new_todo = async (e: React.FormEvent<HTMLFormElement>) => {
+     const handle_todo = async (e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
 
-          const request_instance = axios.create({
-               headers: {
-                    Authorization: `Bearer ${authContext?.authTokens?.access}`,
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-               },
-          }); // create an axios instance with the auth token
-
           if (!taskID) {
+               const request_instance = axios.create({
+                    headers: {
+                         Authorization: `Bearer ${authContext?.authTokens?.access}`,
+                         "Content-Type": "application/json",
+                         Accept: "application/json",
+                    },
+               }); // create an  axios instance with the auth token
                try {
                     const response = await request_instance.post(
                          "http://127.0.0.1:8000/tasks/",
@@ -105,6 +109,33 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
 
                     if (response.status === 200 || response.status === 201) {
                          get_todos();
+                         setTaskTitle("");
+                         success();
+                    } else {
+                         error();
+                    }
+               } catch (err) {
+                    error();
+               }
+          } else {
+               try {
+                    const response = await axios.put(
+                         `http://127.0.0.1:8000/tasks/${taskID}/`,
+                         {
+                              task_title: e.currentTarget.task_title.value,
+                         },
+                         {
+                              headers: {
+                                   Authorization: `Bearer ${authContext?.authTokens?.access}`,
+                                   "Content-Type": "application/json",
+                                   Accept: "application/json",
+                              },
+                         },
+                    );
+
+                    if (response.status === 200 || response.status === 201) {
+                         get_todos();
+                         setTaskID("");
                          setTaskTitle("");
                          success();
                     } else {
@@ -133,13 +164,53 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
           // });
      };
 
+     const delete_todo = async (
+          e: MouseEvent<HTMLButtonElement>,
+          id: string,
+     ) => {
+          const request_instance = axios.create({
+               headers: {
+                    Authorization: `Bearer ${authContext?.authTokens?.access}`,
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+               },
+          }); // create an  axios instance with the auth token
+          try {
+               const response = await request_instance.delete(
+                    `http://127.0.0.1:8000/tasks/${id}/`,
+               );
+
+               if (response.status === 200) {
+                    get_todos();
+                    toast.success("Task removed successfully!", {
+                         position: "top-right",
+                         autoClose: 2000,
+                         draggable: false,
+                         theme: "colored",
+                         closeButton: false,
+                    });
+               } else {
+                    toast.error("Something went wrong!", {
+                         position: "top-right",
+                         autoClose: 2000,
+                         draggable: false,
+                         theme: "colored",
+                         closeButton: false,
+                    });
+               }
+          } catch (err) {
+               error();
+          }
+     };
+
      const contextData = {
           get_todos,
           todos,
-          new_todo,
+          handle_todo,
           task_title,
           setTaskTitle,
           edit_todo,
+          delete_todo,
      }; // set the context data
 
      useEffect(() => {

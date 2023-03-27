@@ -12,7 +12,7 @@ const TodoForm = () => {
      return (
           <div className="border-bottom border-secondary-subtle info">
                <div className="mb-3">
-                    <Form onSubmit={todoContext?.new_todo}>
+                    <Form onSubmit={todoContext?.handle_todo}>
                          <div className="new-task d-flex gap-1">
                               <Form.Control
                                    name="task_title"

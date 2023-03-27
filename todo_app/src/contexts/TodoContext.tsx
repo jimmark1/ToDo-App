@@ -1,4 +1,10 @@
-import React, { useState, useEffect, createContext, useContext } from "react";
+import React, {
+     useState,
+     useEffect,
+     createContext,
+     useContext,
+     MouseEvent,
+} from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,9 +21,19 @@ interface Todo {
 interface TodoContextValue {
      get_todos: () => Promise<void>;
      todos: Todo[];
-     new_todo: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+     handle_todo: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
      task_title: string;
      setTaskTitle: (task_title: string) => void;
+     edit_todo: (
+          e: React.MouseEvent<HTMLButtonElement>,
+          task_title: string,
+          id: string,
+     ) => Promise<void>;
+     delete_todo: (
+          e: React.MouseEvent<HTMLButtonElement>,
+
+          id: string,
+     ) => Promise<void>;
 } // define the TodoContextValue interface
 
 interface Props {
@@ -30,6 +46,7 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
      let authContext = useContext(AuthContext);
      const [todos, setTodos] = useState<Todo[]>([]); // set the initial state of Todos to null
      const [task_title, setTaskTitle] = useState(""); // set the initial state of task_title to null
+     const [taskID, setTaskID] = useState(""); // set the initial state of taskID to null
 
      const success = () => {
           toast.success("Task created successfully!", {
@@ -71,31 +88,115 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
           } // if the response is successful, set the todos to the response data
      };
 
-     const new_todo = async (e: React.FormEvent<HTMLFormElement>) => {
+     const handle_todo = async (e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
 
+          if (!taskID) {
+               const request_instance = axios.create({
+                    headers: {
+                         Authorization: `Bearer ${authContext?.authTokens?.access}`,
+                         "Content-Type": "application/json",
+                         Accept: "application/json",
+                    },
+               }); // create an  axios instance with the auth token
+               try {
+                    const response = await request_instance.post(
+                         "http://127.0.0.1:8000/tasks/",
+                         {
+                              task_title: e.currentTarget.task_title.value,
+                         },
+                    );
+
+                    if (response.status === 200 || response.status === 201) {
+                         get_todos();
+                         setTaskTitle("");
+                         success();
+                    } else {
+                         error();
+                    }
+               } catch (err) {
+                    error();
+               }
+          } else {
+               try {
+                    const response = await axios.put(
+                         `http://127.0.0.1:8000/tasks/${taskID}/`,
+                         {
+                              task_title: e.currentTarget.task_title.value,
+                         },
+                         {
+                              headers: {
+                                   Authorization: `Bearer ${authContext?.authTokens?.access}`,
+                                   "Content-Type": "application/json",
+                                   Accept: "application/json",
+                              },
+                         },
+                    );
+
+                    if (response.status === 200 || response.status === 201) {
+                         get_todos();
+                         setTaskID("");
+                         setTaskTitle("");
+                         success();
+                    } else {
+                         error();
+                    }
+               } catch (err) {
+                    error();
+               }
+          }
+     };
+
+     const edit_todo = async (
+          e: MouseEvent<HTMLButtonElement>,
+          id: string,
+          task_title: string,
+     ) => {
+          setTaskTitle(task_title);
+          setTaskID(id);
+
+          // toast.success("Task Updated successfully!", {
+          //      position: "top-right",
+          //      autoClose: 2000,
+          //      draggable: false,
+          //      theme: "colored",
+          //      closeButton: false,
+          // });
+     };
+
+     const delete_todo = async (
+          e: MouseEvent<HTMLButtonElement>,
+          id: string,
+     ) => {
           const request_instance = axios.create({
                headers: {
                     Authorization: `Bearer ${authContext?.authTokens?.access}`,
                     "Content-Type": "application/json",
                     Accept: "application/json",
                },
-          }); // create an axios instance with the auth token
-
+          }); // create an  axios instance with the auth token
           try {
-               const response = await request_instance.post(
-                    "http://127.0.0.1:8000/tasks/",
-                    {
-                         task_title: e.currentTarget.task_title.value,
-                    },
+               const response = await request_instance.delete(
+                    `http://127.0.0.1:8000/tasks/${id}/`,
                );
 
-               if (response.status === 200 || response.status === 201) {
+               if (response.status === 200) {
                     get_todos();
-                    setTaskTitle("");
-                    success();
+                    toast.success("Task removed successfully!", {
+                         position: "top-right",
+                         autoClose: 2000,
+                         draggable: false,
+                         theme: "colored",
+                         closeButton: false,
+                    });
                } else {
-                    error();
+                    toast.error("Something went wrong!", {
+                         position: "top-right",
+                         autoClose: 2000,
+                         draggable: false,
+                         theme: "colored",
+                         closeButton: false,
+                    });
                }
           } catch (err) {
                error();
@@ -105,9 +206,11 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
      const contextData = {
           get_todos,
           todos,
-          new_todo,
+          handle_todo,
           task_title,
           setTaskTitle,
+          edit_todo,
+          delete_todo,
      }; // set the context data
 
      useEffect(() => {

@@ -31,7 +31,14 @@ const TodoList = () => {
                                              }>
                                              <img src={EditSvg} alt="Edit" />
                                         </Button>
-                                        <Button variant="danger">
+                                        <Button
+                                             variant="danger"
+                                             onClick={(e) =>
+                                                  todoContext?.delete_todo(
+                                                       e,
+                                                       todo.task_id,
+                                                  )
+                                             }>
                                              <img
                                                   src={DeleteSvg}
                                                   alt="Delete"

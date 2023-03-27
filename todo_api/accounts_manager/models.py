@@ -14,12 +14,13 @@ class UserAccountManager(BaseUserManager):
               if not username:
                   raise ValueError('User must have a Username')
             
-              
+            
               user = self.model(
-                     email=self.normalize_email(email),
                      name=name,
+                     email=self.normalize_email(email),
                      username=username,
-                     password=password
+                     password=password,
+                    
               )
 
               user.set_password(password)

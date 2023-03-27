@@ -18,7 +18,7 @@ class RegisterView(APIView):
               data = request.data
 
               name = data['name']
-             
+              email = data['email']
               username = data['username']
               password = data['password']
               re_password = data['re_password']
@@ -29,10 +29,12 @@ class RegisterView(APIView):
                             if not User.objects.filter(username=username).exists():
                                    user = User.objects.create_user(
                                           name=name,
+                                          email=email,
                                           username=username,
                                           password=password
                                           
                                    )
+                                   
                                           
                                    user.save()
                                    return Response({'success' :'User account created successfully'},

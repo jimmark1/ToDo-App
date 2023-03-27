@@ -26,6 +26,14 @@ const SignupForm = () => {
                               <div className="p-1">
                                    <input
                                         className={`${SignupStyles.inputField}`}
+                                        name="email"
+                                        type="email"
+                                        placeholder="Email Address"
+                                   />
+                              </div>
+                              <div className="p-1">
+                                   <input
+                                        className={`${SignupStyles.inputField}`}
                                         name="username"
                                         type="text"
                                         placeholder="Username"

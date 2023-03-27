@@ -110,9 +110,21 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
                     if (response.status === 200 || response.status === 201) {
                          get_todos();
                          setTaskTitle("");
-                         success();
+                         toast.success("Task updated successfully!", {
+                              position: "top-right",
+                              autoClose: 2000,
+                              draggable: false,
+                              theme: "colored",
+                              closeButton: false,
+                         });
                     } else {
-                         error();
+                         toast.error("Something went wrong!", {
+                              position: "top-right",
+                              autoClose: 2000,
+                              draggable: false,
+                              theme: "colored",
+                              closeButton: false,
+                         });
                     }
                } catch (err) {
                     error();

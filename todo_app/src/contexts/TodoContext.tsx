@@ -112,7 +112,13 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
                          setTaskTitle("");
                          success();
                     } else {
-                         error();
+                         toast.error("Something went wrong!", {
+                              position: "top-right",
+                              autoClose: 2000,
+                              draggable: false,
+                              theme: "colored",
+                              closeButton: false,
+                         });
                     }
                } catch (err) {
                     error();
@@ -137,7 +143,13 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
                          get_todos();
                          setTaskID("");
                          setTaskTitle("");
-                         success();
+                         toast.success("Task updated successfully!", {
+                              position: "top-right",
+                              autoClose: 2000,
+                              draggable: false,
+                              theme: "colored",
+                              closeButton: false,
+                         });
                     } else {
                          error();
                     }

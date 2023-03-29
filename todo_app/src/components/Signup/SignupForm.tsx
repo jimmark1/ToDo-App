@@ -1,16 +1,91 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import axios, { AxiosError } from "axios";
+
+import { Link, useNavigate } from "react-router-dom";
+
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import SignupStyles from "../Signup/Signup.module.css";
 
 const SignupForm = () => {
+     let navigate = useNavigate(); // useNavigate hook to navigate to the login page
+
+     type TSignupForm = {
+          name: string;
+          email: string;
+          username: string;
+          password: string;
+          re_password: string;
+     }; // define the TSignupForm type
+
+     const [formData, setFormData] = useState<TSignupForm>({
+          name: "",
+          email: "",
+          username: "",
+          password: "",
+          re_password: "",
+     }); // set the initial state of formData to null
+
+     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+          const { name, value } = e.target;
+          setFormData({ ...formData, [name]: value });
+     }; // handle the change event of the input fields
+
+     const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
+          e.preventDefault();
+
+          const request_instance = axios.create({
+               headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+               },
+          }); // create an  axios instance with the auth token
+          try {
+               const response = await request_instance.post(
+                    "http://127.0.0.1:8000/auth/register/",
+                    {
+                         formData,
+                    },
+               );
+               toast.success(`${response.data.success}`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    draggable: false,
+                    theme: "colored",
+                    closeButton: false,
+               });
+
+               setTimeout(() => {
+                    navigate("/");
+               }, 2000);
+          } catch (error) {
+               toast.error((error as AxiosError<any>).response?.data.error, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    draggable: false,
+                    theme: "colored",
+                    closeButton: false,
+               });
+          }
+     }; // handle the signup form submission
+
      return (
           <div
                className={`${SignupStyles.container}  d-flex justify-content-center align-items-center`}>
                <div className="col-lg-5 container-fluid">
+                    <ToastContainer
+                         hideProgressBar={true}
+                         toastStyle={{
+                              fontSize: "15px",
+                              fontWeight: "500",
+                              letterSpacing: "1.5px",
+                         }}
+                    />
                     <form
                          className={`${SignupStyles.form} shadow shadow-lg`}
-                         id="signup-form">
+                         id="signup-form"
+                         onSubmit={handleSignup}>
                          <div className="p-5">
                               <div className="app-brand text-center p-1">
                                    <h3 className={`fw-bolder`}>JUST DO IT</h3>
@@ -21,6 +96,8 @@ const SignupForm = () => {
                                         name="name"
                                         type="text"
                                         placeholder="Name"
+                                        value={formData.name}
+                                        onChange={handleChange}
                                    />
                               </div>
                               <div className="p-1">
@@ -29,6 +106,8 @@ const SignupForm = () => {
                                         name="email"
                                         type="email"
                                         placeholder="Email Address"
+                                        value={formData.email}
+                                        onChange={handleChange}
                                    />
                               </div>
                               <div className="p-1">
@@ -37,6 +116,8 @@ const SignupForm = () => {
                                         name="username"
                                         type="text"
                                         placeholder="Username"
+                                        value={formData.username}
+                                        onChange={handleChange}
                                    />
                               </div>
                               <div className="p-1 d-flex row">
@@ -46,6 +127,8 @@ const SignupForm = () => {
                                              name="password"
                                              type="password"
                                              placeholder="Password"
+                                             value={formData.password}
+                                             onChange={handleChange}
                                         />
                                    </div>
                                    <div className="col-lg">
@@ -54,6 +137,8 @@ const SignupForm = () => {
                                              name="re_password"
                                              type="password"
                                              placeholder="Confirm Password"
+                                             value={formData.re_password}
+                                             onChange={handleChange}
                                         />
                                    </div>
                               </div>

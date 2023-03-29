@@ -14,7 +14,7 @@ const SignupForm = () => {
           username: string;
           password: string;
           re_password: string;
-     };
+     }; // define the TSignupForm type
 
      const [formData, setFormData] = useState<TSignupForm>({
           name: "",
@@ -22,12 +22,12 @@ const SignupForm = () => {
           username: "",
           password: "",
           re_password: "",
-     });
+     }); // set the initial state of formData to null
 
      const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
           const { name, value } = e.target;
           setFormData({ ...formData, [name]: value });
-     };
+     }; // handle the change event of the input fields
 
      const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
@@ -37,6 +37,7 @@ const SignupForm = () => {
                     Accept: "application/json",
                },
           }); // create an  axios instance with the auth token
+
           try {
                const response = await request_instance.post(
                     "http://127.0.0.1:8000/auth/register/",
@@ -61,11 +62,11 @@ const SignupForm = () => {
                          theme: "colored",
                          closeButton: false,
                     });
-               }
+               } // if the response is successful, set the todos to the response data
           } catch (err) {
                console.log(err);
-          }
-     };
+          } // try-catch block to handle the signup request
+     }; // handle the signup form submission
 
      return (
           <div

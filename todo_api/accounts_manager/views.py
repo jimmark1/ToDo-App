@@ -15,7 +15,7 @@ class RegisterView(APIView):
     
     def post(self, request):
        try:
-              data = request.data
+              data = request.data['formData']
 
               name = data['name']
               email = data['email']
@@ -23,7 +23,6 @@ class RegisterView(APIView):
               password = data['password']
               re_password = data['re_password']
 
-              
               if password == re_password:
                      if len(password) >= 8:
                             if not User.objects.filter(username=username).exists():
@@ -57,7 +56,6 @@ class RegisterView(APIView):
                            )
            
        except Exception as e:
-              print(e)
               return Response(
                      {'error' : 'Something went wrong when creating an account'}, 
                      status=status.HTTP_500_INTERNAL_SERVER_ERROR

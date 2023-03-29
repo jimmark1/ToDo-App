@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import axios, { AxiosError, AxiosResponse } from "axios";
+
+import { Link, useNavigate } from "react-router-dom";
 
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,6 +9,8 @@ import "react-toastify/dist/ReactToastify.css";
 import SignupStyles from "../Signup/Signup.module.css";
 
 const SignupForm = () => {
+     let navigate = useNavigate(); // useNavigate hook to navigate to the login page
+
      type TSignupForm = {
           name: string;
           email: string;
@@ -31,13 +34,13 @@ const SignupForm = () => {
 
      const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
+
           const request_instance = axios.create({
                headers: {
                     "Content-Type": "application/json",
                     Accept: "application/json",
                },
           }); // create an  axios instance with the auth token
-
           try {
                const response = await request_instance.post(
                     "http://127.0.0.1:8000/auth/register/",
@@ -45,34 +48,40 @@ const SignupForm = () => {
                          formData,
                     },
                );
+               toast.success(`${response.data.success}`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    draggable: false,
+                    theme: "colored",
+                    closeButton: false,
+               });
 
-               if (response.status === 200 || response.status === 201) {
-                    toast.success("User registered successfully!", {
-                         position: "top-right",
-                         autoClose: 2000,
-                         draggable: false,
-                         theme: "colored",
-                         closeButton: false,
-                    });
-               } else {
-                    toast.error("Something went wrong!", {
-                         position: "top-right",
-                         autoClose: 2000,
-                         draggable: false,
-                         theme: "colored",
-                         closeButton: false,
-                    });
-               } // if the response is successful, set the todos to the response data
-          } catch (err) {
-               console.log(err);
-          } // try-catch block to handle the signup request
+               setTimeout(() => {
+                    navigate("/");
+               }, 2000);
+          } catch (error) {
+               toast.error((error as AxiosError<any>).response?.data.error, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    draggable: false,
+                    theme: "colored",
+                    closeButton: false,
+               });
+          }
      }; // handle the signup form submission
 
      return (
           <div
                className={`${SignupStyles.container}  d-flex justify-content-center align-items-center`}>
                <div className="col-lg-5 container-fluid">
-                    <ToastContainer />
+                    <ToastContainer
+                         hideProgressBar={true}
+                         toastStyle={{
+                              fontSize: "15px",
+                              fontWeight: "500",
+                              letterSpacing: "1.5px",
+                         }}
+                    />
                     <form
                          className={`${SignupStyles.form} shadow shadow-lg`}
                          id="signup-form"

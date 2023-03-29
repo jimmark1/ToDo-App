@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosError } from "axios";
 
 import { Link, useNavigate } from "react-router-dom";
 

@@ -12,20 +12,13 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { TodoProvider } from "./contexts/TodoContext";
 import PrivateRoutes from "./contexts/PrivateRoutes";
+import ResetPassword from "./components/ForgotPassword/ResetPassword";
 
 const App: React.FC = () => {
      return (
           <Router>
                <AuthProvider>
                     <Routes>
-                         <Route path="/signup" element={<Signup />} />
-                         <Route path="/login" element={<LoginPage />} />
-                         <Route
-                              path="/forgot-password"
-                              element={<ForgotPasswordPage />}
-                         />
-                         <Route path="*" element={<NotFoundPage />} />
-
                          <Route element={<PrivateRoutes />}>
                               <Route
                                    path="/"
@@ -36,6 +29,16 @@ const App: React.FC = () => {
                                    }
                               />
                          </Route>
+                         <Route path="/signup" element={<Signup />} />
+                         <Route path="/login" element={<LoginPage />} />
+                         <Route
+                              path="/forgot-password"
+                              element={<ForgotPasswordPage />}
+                         />
+                         <Route
+                              path="/reset-password/:token"
+                              element={<ResetPassword />}></Route>
+                         <Route path="*" element={<NotFoundPage />} />
                     </Routes>
                </AuthProvider>
           </Router>

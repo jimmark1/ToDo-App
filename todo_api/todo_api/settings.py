@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 
 from datetime import timedelta
+from email.utils import formataddr
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -202,4 +203,17 @@ SIMPLE_JWT = {
     "TOKEN_BLACKLIST_SERIALIZER": "rest_framework_simplejwt.serializers.TokenBlacklistSerializer",
     "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
-}
+} #SIMPLE_JWT
+
+MAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend" # This is the default backend, but it is good to be explicit
+EMAIL_HOST = 'smtp.gmail.com'  # This is the SMTP server for Gmail
+EMAIL_PORT = 587 # This is the port that Gmail uses for SMTP
+EMAIL_HOST_USER = 'djangoemail04@gmail.com' # This is the email address that you will use to send emails from
+EMAIL_HOST_PASSWORD = 'creyufkvsonxxsuw'# This is the password for the email address that you will use to send emails from
+EMAIL_USE_TLS = True # This is the security protocol that we will use to send emails
+
+EMAIL_SENDER_NAME = 'Todo App' # This is the name that will be shown in the email
+DEFAULT_FROM_EMAIL = formataddr(('Todo App', 'djangoemail04@gmail.com')) # This is the name and email that will be shown in the email
+
+
+PASSWORD_RESET_TIMEOUT=300 #5 minutes

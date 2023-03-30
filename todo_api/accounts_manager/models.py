@@ -53,7 +53,11 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
        created_at = models.DateTimeField(auto_now_add=True)
        updated_at = models.DateTimeField(auto_now_add=True)
 
+       password_reset_token = models.CharField(max_length=255, null=True, blank=True)
+
        is_active = models.BooleanField(default=True)
+
+       password
 
        objects = UserAccountManager()
 

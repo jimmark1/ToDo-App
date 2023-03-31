@@ -10,7 +10,7 @@ const TodoForm = () => {
      let todoContext = useContext(TodoContext);
 
      return (
-          <div className="border-bottom border-secondary-subtle info">
+          <div className="info">
                <div className="mb-3">
                     <Form onSubmit={todoContext?.handle_todo}>
                          <div className="new-task d-flex gap-1">

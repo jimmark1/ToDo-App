@@ -40,23 +40,15 @@ const LoginForm = () => {
                                         name="username"
                                         type="text"
                                         placeholder="Username"
+                                        required={true}
                                    />
                                    <input
                                         className={`${LoginStyles.input}`}
                                         name="password"
                                         type="password"
                                         placeholder="Password"
+                                        required={true}
                                    />
-                              </div>
-                              <div
-                                   className={`${LoginStyles.dataLink} ${LoginStyles.forgotPaswordLink} text-end`}>
-                                   <Link
-                                        to={"/forgot-password"}
-                                        className={`${LoginStyles.signupLink}`}>
-                                        <p className="fw-normal">
-                                             Fogot Password?
-                                        </p>
-                                   </Link>
                               </div>
                               <div className="d-grid gap-2 col-6 mx-auto p-2">
                                    <input

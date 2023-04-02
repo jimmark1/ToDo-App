@@ -98,6 +98,7 @@ const SignupForm = () => {
                                         placeholder="Name"
                                         value={formData.name}
                                         onChange={handleChange}
+                                        required={true}
                                    />
                               </div>
                               <div className="p-1">
@@ -108,6 +109,7 @@ const SignupForm = () => {
                                         placeholder="Email Address"
                                         value={formData.email}
                                         onChange={handleChange}
+                                        required={true}
                                    />
                               </div>
                               <div className="p-1">
@@ -118,6 +120,7 @@ const SignupForm = () => {
                                         placeholder="Username"
                                         value={formData.username}
                                         onChange={handleChange}
+                                        required={true}
                                    />
                               </div>
                               <div className="p-1 d-flex row">
@@ -139,6 +142,7 @@ const SignupForm = () => {
                                              placeholder="Confirm Password"
                                              value={formData.re_password}
                                              onChange={handleChange}
+                                             required={true}
                                         />
                                    </div>
                               </div>

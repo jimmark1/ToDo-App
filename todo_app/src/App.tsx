@@ -4,7 +4,6 @@ import "./App.css";
 import LoginPage from "./pages/Login/LoginPage";
 import Signup from "./components/Signup/SignupForm";
 import TodoPage from "./pages/TaskPage/TodoPage";
-import ForgotPasswordPage from "./pages/ForgotPassword/ForgotPasswordPage";
 import NotFoundPage from "./pages/404_NotFound/NotFoundPage";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -12,7 +11,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { TodoProvider } from "./contexts/TodoContext";
 import PrivateRoutes from "./contexts/PrivateRoutes";
-import ResetPassword from "./components/ForgotPassword/ResetPassword";
 
 const App: React.FC = () => {
      return (
@@ -31,13 +29,7 @@ const App: React.FC = () => {
                          </Route>
                          <Route path="/signup" element={<Signup />} />
                          <Route path="/login" element={<LoginPage />} />
-                         <Route
-                              path="/forgot-password"
-                              element={<ForgotPasswordPage />}
-                         />
-                         <Route
-                              path="/reset-password/:token"
-                              element={<ResetPassword />}></Route>
+
                          <Route path="*" element={<NotFoundPage />} />
                     </Routes>
                </AuthProvider>

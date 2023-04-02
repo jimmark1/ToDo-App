@@ -43,7 +43,7 @@ const SignupForm = () => {
           }); // create an  axios instance with the auth token
           try {
                const response = await request_instance.post(
-                    "http://127.0.0.1:8000/auth/register/",
+                    "https://todo-api-production-0ee9.up.railway.app/auth/register/",
                     {
                          formData,
                     },

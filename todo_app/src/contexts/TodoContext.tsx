@@ -67,8 +67,6 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
 
           if (response.status === 200) {
                setTodos(response.data);
-          } else {
-               console.log(response);
           } // if the response is successful, set the todos to the response data
      };
 
@@ -102,17 +100,15 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
                               closeButton: false,
                          });
                     }
-               } catch (error) {
-                    toast.error(
-                         (error as AxiosError<any>).response?.data.error,
-                         {
-                              position: "top-right",
-                              autoClose: 2000,
-                              draggable: false,
-                              theme: "colored",
-                              closeButton: false,
-                         },
-                    );
+               } catch (err) {
+                    console.log(err);
+                    toast.error("Something went wrong", {
+                         position: "top-right",
+                         autoClose: 2000,
+                         draggable: false,
+                         theme: "colored",
+                         closeButton: false,
+                    });
                }
           } else {
                try {

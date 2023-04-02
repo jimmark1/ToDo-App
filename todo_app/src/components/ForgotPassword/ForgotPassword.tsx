@@ -18,7 +18,7 @@ const ForgotPassword = () => {
 
           try {
                const response = await axios.post(
-                    "http://127.0.0.1:8000/auth/forgot-password/",
+                    "https://todo-api-production-0ee9.up.railway.app/auth/forgot-password/",
                     { email },
                ); // Send email to the API
 

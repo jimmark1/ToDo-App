@@ -62,7 +62,7 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
           }); // create an axios instance with the auth token
 
           const response = await request_instance.get(
-               "http://127.0.0.1:8000/tasks/",
+               "https://todo-api-production-0ee9.up.railway.app/tasks/",
           ); // get the todos from the API
 
           if (response.status === 200) {
@@ -85,7 +85,7 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
                }); // create an  axios instance with the auth token
                try {
                     const response = await request_instance.post(
-                         "http://127.0.0.1:8000/tasks/",
+                         "https://todo-api-production-0ee9.up.railway.app/tasks/",
                          {
                               task_title: e.currentTarget.task_title.value,
                          },
@@ -117,7 +117,7 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
           } else {
                try {
                     const response = await axios.put(
-                         `http://127.0.0.1:8000/tasks/${taskID}/`,
+                         `https://todo-api-production-0ee9.up.railway.app/${taskID}/`,
                          {
                               task_title: e.currentTarget.task_title.value,
                          },
@@ -164,7 +164,7 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
      ) => {
           try {
                const response = await axios.put(
-                    `http://127.0.0.1:8000/tasks/${id}/`,
+                    `https://todo-api-production-0ee9.up.railway.app/${id}/`,
                     {
                          task_title: title,
                          is_completed: true,
@@ -221,7 +221,7 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
           }); // create an  axios instance with the auth token
           try {
                const response = await request_instance.delete(
-                    `http://127.0.0.1:8000/tasks/${id}/`,
+                    `https://todo-api-production-0ee9.up.railway.app/${id}/`,
                );
 
                if (response.status === 200) {

@@ -75,7 +75,7 @@ export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
           try {
                // console.log("Logging in");
                const response = await axios.post(
-                    "http://127.0.0.1:8000/auth/token/",
+                    "https://todo-api-production-0ee9.up.railway.app/auth/token/",
                     {
                          username: e.currentTarget.username.value,
                          password: e.currentTarget.password.value,
@@ -106,7 +106,7 @@ export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
      const updateTokens = async () => {
           try {
                const response = await axios.post(
-                    "http://127.0.0.1:8000/auth/token/refresh/",
+                    "https://todo-api-production-0ee9.up.railway.app/token/refresh/",
                     {
                          refresh: authTokens?.refresh,
                     },

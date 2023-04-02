@@ -50,6 +50,9 @@ INSTALLED_APPS = [
     'accounts_manager',
     'tasks_manager',
 
+    #APScheduler
+    'apscheduler',
+
     #JWT BLACKLIST TOKENS
     'rest_framework_simplejwt.token_blacklist',
 
@@ -217,3 +220,7 @@ DEFAULT_FROM_EMAIL = formataddr(('Todo App', 'djangoemail04@gmail.com')) # This 
 
 
 PASSWORD_RESET_TIMEOUT=300 #5 minutes
+
+
+if os.environ.get('RUN_MAIN', None) != 'true':
+    import todo_api.apscheduler  # import the apscheduler file

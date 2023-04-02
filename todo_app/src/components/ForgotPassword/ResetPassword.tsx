@@ -33,7 +33,7 @@ const ResetPassword: React.FC = () => {
 
           try {
                const response = await axios.post(
-                    `https://todo-api-production-0ee9.up.railway.app/auth/reset-password/${token}/`,
+                    `https://todo-api-production-065e.up.railway.app/auth/reset-password/${token}/`,
                     {
                          password,
                     },

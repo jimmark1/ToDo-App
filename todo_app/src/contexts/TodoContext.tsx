@@ -100,17 +100,15 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
                               closeButton: false,
                          });
                     }
-               } catch (error) {
-                    toast.error(
-                         (error as AxiosError<any>).response?.data.error,
-                         {
-                              position: "top-right",
-                              autoClose: 2000,
-                              draggable: false,
-                              theme: "colored",
-                              closeButton: false,
-                         },
-                    );
+               } catch (err) {
+                    console.log(err);
+                    toast.error("Something went wrong", {
+                         position: "top-right",
+                         autoClose: 2000,
+                         draggable: false,
+                         theme: "colored",
+                         closeButton: false,
+                    });
                }
           } else {
                try {

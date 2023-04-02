@@ -59,7 +59,15 @@ const TodoList = () => {
                                                             {todo.task_title}
                                                        </span>
                                                        <ButtonGroup>
-                                                            <Button variant="success">
+                                                            <Button
+                                                                 variant="success"
+                                                                 onClick={(e) =>
+                                                                      todoContext?.complete_todo(
+                                                                           e,
+                                                                           todo.task_title,
+                                                                           todo.task_id,
+                                                                      )
+                                                                 }>
                                                                  <img
                                                                       src={
                                                                            CheckSvg

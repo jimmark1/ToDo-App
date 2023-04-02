@@ -5,7 +5,7 @@ import React, {
      useContext,
      MouseEvent,
 } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -31,7 +31,11 @@ interface TodoContextValue {
      ) => Promise<void>;
      delete_todo: (
           e: React.MouseEvent<HTMLButtonElement>,
-
+          id: string,
+     ) => Promise<void>;
+     complete_todo: (
+          e: React.MouseEvent<HTMLButtonElement>,
+          task_title: string,
           id: string,
      ) => Promise<void>;
 } // define the TodoContextValue interface
@@ -47,26 +51,6 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
      const [todos, setTodos] = useState<Todo[]>([]); // set the initial state of Todos to null
      const [task_title, setTaskTitle] = useState(""); // set the initial state of task_title to null
      const [taskID, setTaskID] = useState(""); // set the initial state of taskID to null
-
-     const success = () => {
-          toast.success("Task created successfully!", {
-               position: "top-right",
-               autoClose: 2000,
-               draggable: false,
-               theme: "colored",
-               closeButton: false,
-          });
-     };
-
-     const error = () => {
-          toast.error("Failed to create task!", {
-               position: "top-right",
-               autoClose: 2000,
-               draggable: false,
-               theme: "colored",
-               closeButton: false,
-          });
-     };
 
      const get_todos = async () => {
           const request_instance = axios.create({
@@ -110,9 +94,7 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
                     if (response.status === 200 || response.status === 201) {
                          get_todos();
                          setTaskTitle("");
-                         success();
-                    } else {
-                         toast.error("Something went wrong!", {
+                         toast.success(response.data.success, {
                               position: "top-right",
                               autoClose: 2000,
                               draggable: false,
@@ -120,8 +102,17 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
                               closeButton: false,
                          });
                     }
-               } catch (err) {
-                    error();
+               } catch (error) {
+                    toast.error(
+                         (error as AxiosError<any>).response?.data.error,
+                         {
+                              position: "top-right",
+                              autoClose: 2000,
+                              draggable: false,
+                              theme: "colored",
+                              closeButton: false,
+                         },
+                    );
                }
           } else {
                try {
@@ -150,12 +141,61 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
                               theme: "colored",
                               closeButton: false,
                          });
-                    } else {
-                         error();
                     }
-               } catch (err) {
-                    error();
+               } catch (error) {
+                    toast.error(
+                         (error as AxiosError<any>).response?.data.error,
+                         {
+                              position: "top-right",
+                              autoClose: 2000,
+                              draggable: false,
+                              theme: "colored",
+                              closeButton: false,
+                         },
+                    );
                }
+          }
+     };
+
+     const complete_todo = async (
+          e: MouseEvent<HTMLButtonElement>,
+          title: string,
+          id: string,
+     ) => {
+          try {
+               const response = await axios.put(
+                    `http://127.0.0.1:8000/tasks/${id}/`,
+                    {
+                         task_title: title,
+                         is_completed: true,
+                    },
+                    {
+                         headers: {
+                              Authorization: `Bearer ${authContext?.authTokens?.access}`,
+                              "Content-Type": "application/json",
+                              Accept: "application/json",
+                         },
+                    },
+               );
+
+               if (response.status === 200) {
+                    get_todos();
+                    toast.success(response.data.success, {
+                         position: "top-right",
+                         autoClose: 2000,
+                         draggable: false,
+                         theme: "colored",
+                         closeButton: false,
+                    });
+               }
+          } catch (error) {
+               toast.error((error as AxiosError<any>).response?.data.error, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    draggable: false,
+                    theme: "colored",
+                    closeButton: false,
+               });
           }
      };
 
@@ -166,14 +206,6 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
      ) => {
           setTaskTitle(task_title);
           setTaskID(id);
-
-          // toast.success("Task Updated successfully!", {
-          //      position: "top-right",
-          //      autoClose: 2000,
-          //      draggable: false,
-          //      theme: "colored",
-          //      closeButton: false,
-          // });
      };
 
      const delete_todo = async (
@@ -194,15 +226,7 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
 
                if (response.status === 200) {
                     get_todos();
-                    toast.success("Task removed successfully!", {
-                         position: "top-right",
-                         autoClose: 2000,
-                         draggable: false,
-                         theme: "colored",
-                         closeButton: false,
-                    });
-               } else {
-                    toast.error("Something went wrong!", {
+                    toast.success(response.data.success, {
                          position: "top-right",
                          autoClose: 2000,
                          draggable: false,
@@ -210,8 +234,14 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
                          closeButton: false,
                     });
                }
-          } catch (err) {
-               error();
+          } catch (error) {
+               toast.error((error as AxiosError<any>).response?.data.error, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    draggable: false,
+                    theme: "colored",
+                    closeButton: false,
+               });
           }
      };
 
@@ -223,6 +253,7 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
           setTaskTitle,
           edit_todo,
           delete_todo,
+          complete_todo,
      }; // set the context data
 
      useEffect(() => {

@@ -67,8 +67,6 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
 
           if (response.status === 200) {
                setTodos(response.data);
-          } else {
-               console.log(response);
           } // if the response is successful, set the todos to the response data
      };
 

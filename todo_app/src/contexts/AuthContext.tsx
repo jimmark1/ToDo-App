@@ -73,14 +73,22 @@ export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
           e.preventDefault();
 
           try {
-               // console.log("Logging in");
+               // const response = await axios.post(
+               //      "https://todo-api-production-065e.up.railway.app/auth/token/",
+               //      {
+               //           username: e.currentTarget.username.value,
+               //           password: e.currentTarget.password.value,
+               //      },
+               // );
                const response = await axios.post(
-                    "https://todo-api-production-065e.up.railway.app/auth/token/",
+                    "https://todo-api-xc4j.onrender.com/auth/token/",
                     {
                          username: e.currentTarget.username.value,
                          password: e.currentTarget.password.value,
                     },
-               ); // send a post request to the backend with the username and password
+               );
+
+               // send a post request to the backend with the username and password
 
                if (response.status === 200) {
                     localStorage.setItem(
@@ -105,12 +113,20 @@ export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
 
      const updateTokens = async () => {
           try {
+               // const response = await axios.post(
+               //      "https://todo-api-production-065e.up.railway.app/token/refresh/",
+               //      {
+               //           refresh: authTokens?.refresh,
+               //      },
+               // );
                const response = await axios.post(
-                    "https://todo-api-production-065e.up.railway.app/token/refresh/",
+                    "https://todo-api-xc4j.onrender.com/auth/token/refresh/",
                     {
                          refresh: authTokens?.refresh,
                     },
-               ); // send a post request to the backend with the refresh token
+               );
+
+               // send a post request to the backend with the refresh token
 
                if (response.status === 200) {
                     setAuthTokens(response.data);

@@ -61,9 +61,15 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
                },
           }); // create an axios instance with the auth token
 
+          // const response = await request_instance.get(
+          //      "https://todo-api-production-065e.up.railway.app/tasks/",
+          // );
+
           const response = await request_instance.get(
-               "https://todo-api-production-065e.up.railway.app/tasks/",
-          ); // get the todos from the API
+               "https://todo-api-xc4j.onrender.com/tasks/",
+          );
+
+          // get the todos from the API
 
           if (response.status === 200) {
                setTodos(response.data);
@@ -82,12 +88,19 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
                     },
                }); // create an  axios instance with the auth token
                try {
+                    // const response = await request_instance.post(
+                    //      "https://todo-api-production-065e.up.railway.app/tasks/",
+                    //      {
+                    //           task_title: e.currentTarget.task_title.value,
+                    //      },
+                    // );
+
                     const response = await request_instance.post(
-                         "https://todo-api-production-065e.up.railway.app/tasks/",
+                         "https://todo-api-xc4j.onrender.com/tasks/",
                          {
                               task_title: e.currentTarget.task_title.value,
                          },
-                    );
+                    ); // post the task to the API
 
                     if (response.status === 200 || response.status === 201) {
                          get_todos();
@@ -101,7 +114,6 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
                          });
                     }
                } catch (err) {
-                    console.log(err);
                     toast.error("Something went wrong", {
                          position: "top-right",
                          autoClose: 2000,
@@ -112,8 +124,21 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
                }
           } else {
                try {
+                    // const response = await axios.put(
+                    //      `https://todo-api-production-065e.up.railway.app/tasks/${taskID}/`,
+                    //      {
+                    //           task_title: e.currentTarget.task_title.value,
+                    //      },
+                    //      {
+                    //           headers: {
+                    //                Authorization: `Bearer ${authContext?.authTokens?.access}`,
+                    //                "Content-Type": "application/json",
+                    //                Accept: "application/json",
+                    //           },
+                    //      },
+                    // );
                     const response = await axios.put(
-                         `https://todo-api-production-065e.up.railway.app/tasks/${taskID}/`,
+                         `https://todo-api-xc4j.onrender.com/tasks/${taskID}/`,
                          {
                               task_title: e.currentTarget.task_title.value,
                          },
@@ -159,8 +184,22 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
           id: string,
      ) => {
           try {
+               // const response = await axios.put(
+               //      `https://todo-api-production-065e.up.railway.app/tasks/${id}/`,
+               //      {
+               //           task_title: title,
+               //           is_completed: true,
+               //      },
+               //      {
+               //           headers: {
+               //                Authorization: `Bearer ${authContext?.authTokens?.access}`,
+               //                "Content-Type": "application/json",
+               //                Accept: "application/json",
+               //           },
+               //      },
+               // );
                const response = await axios.put(
-                    `https://todo-api-production-065e.up.railway.app/tasks/${id}/`,
+                    `https://todo-api-xc4j.onrender.com/tasks/${id}/`,
                     {
                          task_title: title,
                          is_completed: true,
@@ -172,7 +211,7 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
                               Accept: "application/json",
                          },
                     },
-               );
+               ); // mark the task as completed
 
                if (response.status === 200) {
                     get_todos();
@@ -216,8 +255,12 @@ export const TodoProvider: React.FC<Props> = ({ children }: Props) => {
                },
           }); // create an  axios instance with the auth token
           try {
+               // const response = await request_instance.delete(
+               //      `https://todo-api-production-065e.up.railway.app/tasks/${id}/`,
+               // );
+
                const response = await request_instance.delete(
-                    `https://todo-api-production-065e.up.railway.app/tasks/${id}/`,
+                    `https://todo-api-xc4j.onrender.com/tasks/${id}/`,
                );
 
                if (response.status === 200) {
